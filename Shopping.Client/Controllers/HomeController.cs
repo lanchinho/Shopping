@@ -13,8 +13,7 @@ namespace Shopping.Client.Controllers
 		public HomeController(IHttpClientFactory httpClientFactory, ILogger<HomeController> logger)
 		{
 			ArgumentNullException.ThrowIfNull(logger, nameof(logger));
-			_logger = logger
-                ;
+			_logger = logger;
             _httpClient = httpClientFactory.CreateClient("ShoppingAPIClient");
 		}
 

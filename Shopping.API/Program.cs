@@ -1,4 +1,6 @@
 
+using Shopping.API.Data;
+
 namespace Shopping.API
 {
 	public class Program
@@ -8,8 +10,8 @@ namespace Shopping.API
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
-
 			builder.Services.AddControllers();
+			builder.Services.AddScoped<ProductContext>();
 			// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 			builder.Services.AddOpenApi();
 

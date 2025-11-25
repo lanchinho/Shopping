@@ -1,12 +1,37 @@
-﻿using Shopping.API.Models;
+﻿using MongoDB.Driver;
+using Shopping.API.Models;
 
 namespace Shopping.API.Data
 {
-	public static class ProductContext
+	public class ProductContext
 	{
-		public static readonly List<Product> Products =
-		[
-			new Product()
+		public ProductContext(IConfiguration configuration)
+		{
+			var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
+			var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
+			var collectionName = configuration["DatabaseSettings:CollectionName"];
+
+			database.CreateCollection(collectionName);
+			Products = database.GetCollection<Product>(collectionName);
+			SeedData(Products);
+		}
+
+		public IMongoCollection<Product> Products { get; }
+
+		private static void SeedData(IMongoCollection<Product> productCollection)
+		{
+			var existProduct = productCollection.Find(p => true).Any();
+			if (!existProduct)
+				productCollection.InsertManyAsync(GetPreconfiguredProducts());
+
+
+		}
+
+		private static List<Product> GetPreconfiguredProducts()
+		{
+			return new List<Product>
+			{
+				new Product
 				{
 					Name = "IPhone X",
 					Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
@@ -14,7 +39,7 @@ namespace Shopping.API.Data
 					Price = 950.00M,
 					Category = "Smart Phone"
 				},
-				new Product()
+				new Product
 				{
 					Name = "Samsung 10",
 					Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
@@ -22,7 +47,7 @@ namespace Shopping.API.Data
 					Price = 840.00M,
 					Category = "Smart Phone"
 				},
-				new Product()
+				new Product
 				{
 					Name = "Huawei Plus",
 					Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
@@ -30,7 +55,7 @@ namespace Shopping.API.Data
 					Price = 650.00M,
 					Category = "White Appliances"
 				},
-				new Product()
+				new Product
 				{
 					Name = "Xiaomi Mi 9",
 					Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
@@ -38,7 +63,7 @@ namespace Shopping.API.Data
 					Price = 470.00M,
 					Category = "White Appliances"
 				},
-				new Product()
+				new Product
 				{
 					Name = "HTC U11+ Plus",
 					Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
@@ -46,7 +71,7 @@ namespace Shopping.API.Data
 					Price = 380.00M,
 					Category = "Smart Phone"
 				},
-				new Product()
+				new Product
 				{
 					Name = "LG G7 ThinQ EndofCourse",
 					Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
@@ -54,6 +79,7 @@ namespace Shopping.API.Data
 					Price = 240.00M,
 					Category = "Home Kitchen"
 				}
-		];
+			};
+		}
 	}
 }
