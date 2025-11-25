@@ -29,8 +29,8 @@ namespace Shopping.API.Data
 
 		private static List<Product> GetPreconfiguredProducts()
 		{
-			return new List<Product>
-			{
+			return
+			[
 				new Product
 				{
 					Name = "IPhone X",
@@ -79,7 +79,7 @@ namespace Shopping.API.Data
 					Price = 240.00M,
 					Category = "Home Kitchen"
 				}
-			};
+			];
 		}
 	}
 }

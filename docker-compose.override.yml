@@ -1,0 +1,35 @@
+services:
+  shopping.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - DatabaseSettings:ConnectionString=mongodb://shoppingdb:27017 
+    depends_on:
+      - shopping.db
+    ports:
+      - "8000:80"
+
+  shopping.client:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 
+      - ShoppingAPIUrl=http://shopping.api/api/
+    depends_on:
+      - shopping.db
+      - shopping.api
+    ports:
+      - "8001:80"
+
+  shopping.db:
+    container_name: shoppingdb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+
+
+  
