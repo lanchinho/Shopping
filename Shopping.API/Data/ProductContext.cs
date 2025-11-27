@@ -11,7 +11,9 @@ namespace Shopping.API.Data
 			var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
 			var collectionName = configuration["DatabaseSettings:CollectionName"];
 
-			database.CreateCollection(collectionName);
+			if (!database.ListCollectionNames().ToList().Contains(collectionName))
+				database.CreateCollection(collectionName);
+
 			Products = database.GetCollection<Product>(collectionName);
 			SeedData(Products);
 		}
