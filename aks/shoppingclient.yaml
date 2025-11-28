@@ -29,7 +29,7 @@ spec:
                 name: shoppingapi-configmap
                 key: shoppingapi_url
         resources:
-          request:
+          requests:
             memory: "64Mi"
             cpu: "250m"
           limits:
