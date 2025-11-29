@@ -32,7 +32,7 @@ stages:
     steps:
       - script: |
           echo "Dockerfile path: $(dockerfilePath)"
-          ls -R
+          ls
         displayName: Print Dockerfile path
 
       - task: Docker@2
@@ -42,7 +42,7 @@ stages:
           repository: $(imageRepository)
           dockerfile: $(dockerfilePath)
           containerRegistry: $(dockerRegistryServiceConnection)
-          buildContext: $(Build.SourcesDirectory)/Shopping
+          buildContext: $(Build.SourcesDirectory)/Shopping.API
           tags: |
             $(tag)
 
