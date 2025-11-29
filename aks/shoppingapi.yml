@@ -16,13 +16,11 @@ spec:
     spec:
       containers:
       - name: shoppingapi
-        image: shoppingacr.azurecr.io/shoppingapi:latest
+        image: shoppingacr.azurecr.io/shoppingapi:$(Build.BuildId)
         imagePullPolicy: IfNotPresent
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: Development
-          #- name: ASPNETCORE_URLS
-           # value: http://+:80
           - name: DatabaseSettings__ConnectionString
             valueFrom:
                 configMapKeyRef:
