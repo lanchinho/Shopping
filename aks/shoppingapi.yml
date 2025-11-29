@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shoppingclient-deployment
+  name: shoppingapi-deployment
   labels: 
-    app: shoppingclient
+    app: shoppingapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: shoppingclient
+      app: shoppingapi
   template:
     metadata:
       labels:
-        app: shoppingclient
+        app: shoppingapi
     spec:
       containers:
-      - name: shoppingclient
-        image: shoppingacr.azurecr.io/shoppingclient:v1
+      - name: shoppingapi
+        image: shoppingacr.azurecr.io/shoppingapi:v1
         imagePullPolicy: IfNotPresent
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: Development
           - name: ASPNETCORE_URLS
             value: http://+:80
-          - name: ShoppingAPIUrl
+          - name: DatabaseSettings__ConnectionString
             valueFrom:
-              configMapKeyRef:
-                name: shoppingapi-configmap
-                key: shoppingapi_url
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: connection_string
         resources:
           requests:
             memory: "64Mi"
@@ -43,11 +43,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: shoppingclient-service
+  name: shoppingapi-service
 spec:
-  type: LoadBalancer
   selector:
-    app: shoppingclient
+    app: shoppingapi
   ports:
     - protocol: TCP
       port: 80    
