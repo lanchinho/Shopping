@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: shoppingclient
-        image: shoppingacr.azurecr.io/shoppingclient:v1
+        image: shoppingacr.azurecr.io/shoppingclient:latest
         imagePullPolicy: IfNotPresent
         env:
           - name: ASPNETCORE_ENVIRONMENT
