@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: lanchinhoshopping 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lanchinhoshopping
+  template:
+    metadata:
+      labels:
+        app: lanchinhoshopping 
+    spec:
+      containers:
+        - name: lanchinhoshopping 
+          image: shoppingacr.azurecr.io/lanchinhoshopping
+          ports:
+          - containerPort: 8080
