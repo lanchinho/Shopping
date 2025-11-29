@@ -20,6 +20,10 @@ namespace Shopping.API.Data
 
 		public IMongoCollection<Product> Products { get; }
 
+		/// <summary>
+		/// Popula uma coleção no mongo DB com dados dos produtos.
+		/// </summary>
+		/// <param name="productCollection">Collection contendo produtos.</param>
 		private static void SeedData(IMongoCollection<Product> productCollection)
 		{
 			var existProduct = productCollection.Find(p => true).Any();
